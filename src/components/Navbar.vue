@@ -19,12 +19,9 @@
           <li class="nav-item">
             <router-link class="nav-link active" to="/">Home</router-link>
           </li>
-<!--           <li class="nav-item">
-            <router-link class="nav-link active" to="/createfriends">Create Friends</router-link>
-          </li>
           <li class="nav-item">
-            <router-link class="nav-link active" to="/editfriends">Edit Friends</router-link>
-          </li> -->
+            <router-link class="nav-link active" to="/groups">Groups</router-link>
+          </li>
         </ul>
       </div>
     </div>

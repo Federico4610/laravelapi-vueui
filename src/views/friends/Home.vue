@@ -16,15 +16,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(friend,  index) in friends" :key="index">
+        <tr v-for="(friend, index) in friends" :key="index">
           <td>{{ friend.nama }}</td>
           <td>{{ friend.no_telp }}</td>
           <td>{{ friend.alamat }}</td>
           <td>
-            <router-link class="btn btn-success active" to="/editfriends"
+            <router-link
+              class="btn btn-success active"
+              :to="{name:'Editfriends', params:{id:friend.id}}"
               >Edit</router-link
             >
-            <button class="btn btn-danger">Delete</button>
+            <button @click.prevent="friendDelete(friend.id)" class="btn btn-danger">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -33,31 +35,45 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 // @ is an alias to /src
 import Slider from "@/components/Slider.vue";
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 
 export default {
   name: "Home",
   components: {
     Slider,
   },
-  setup(){
-    let friends = ref([])
+  setup() {
+    let friends = ref([]);
 
     onMounted(() => {
-      axios.get(' http://127.0.0.1:8000/api/friends')
-      .then(response => {
-        friends.value = response.data.data
-      })
-      .catch(error => {
+      axios
+        .get('http://pia.labirin.co.id/api/friends')
+        .then((response) => {
+          friends.value = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+
+
+    function friendDelete(id){
+      axios.delete(`http://pia.labirin.co.id/api/friends/${id}`)
+      .then(() =>{
+        let a = this.friends.map(friends => friends.id).indexOf(id);
+        this.friends.splice(a, 1)
+      }).catch(error =>{
         console.log(error)
       })
-    })
-    return {
-      friends
     }
-  }
+  
+    return {
+      friends,
+      friendDelete
+    };
+  },
 };
 </script>
